@@ -168,8 +168,11 @@ export async function logout(req, res) {
     const token = req.cookies?.rt;
     if (!token) {
       // clear cookie anyway
-      res.clearCookie('rt', { path: '/api/admin/refresh' });
-      res.clearCookie('csrf');
+      // res.clearCookie('rt', { path: '/api/admin/refresh' });
+      // res.clearCookie('csrf');
+      res.clearCookie('rt', { path: '/' });
+      res.clearCookie('csrf', { path: '/' });
+
       return res.json({ success: true });
     }
 
@@ -177,8 +180,11 @@ export async function logout(req, res) {
     try {
       payload = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
     } catch {
-      res.clearCookie('rt', { path: '/api/admin/refresh' });
-      res.clearCookie('csrf');
+      // res.clearCookie('rt', { path: '/api/admin/refresh' });
+      // res.clearCookie('csrf');
+      res.clearCookie('rt', { path: '/' });
+      res.clearCookie('csrf', { path: '/' });
+
       return res.json({ success: true });
     }
 
@@ -188,8 +194,11 @@ export async function logout(req, res) {
       await admin.save();
     }
 
-    res.clearCookie('rt', { path: '/api/admin/refresh' });
-    res.clearCookie('csrf');
+    // res.clearCookie('rt', { path: '/api/admin/refresh' });
+    // res.clearCookie('csrf');
+    res.clearCookie('rt', { path: '/' });
+    res.clearCookie('csrf', { path: '/' });
+
     return res.json({ success: true });
   } catch (err) {
     console.error('Logout error', err);
