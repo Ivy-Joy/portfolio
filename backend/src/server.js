@@ -15,10 +15,34 @@ import adminRouter from './routes/admin.js';
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true
-}));
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL,
+//   credentials: true
+// }));
+
+// normalizing frontend origin and creating CORS options
+const rawFrontend = process.env.FRONTEND_URL || '';
+const FRONTEND_URL = rawFrontend.replace(/\/+$/, ''); // remove trailing slash(es)
+
+// building cors options object used both for simple requests and preflight
+const corsOptions = {
+  origin: function (origin, callback) {
+    // allowing non-browser requests (curl, Postman) with no origin
+    if (!origin) return callback(null, true);
+
+    if (origin === FRONTEND_URL) {
+      return callback(null, true);
+    }
+    // not allowed
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token', 'x-admin-token']
+};
+
+// apply CORS for all routes and handle preflight
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
