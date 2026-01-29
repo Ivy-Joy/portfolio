@@ -10,6 +10,17 @@ const api = axios.create({
   timeout: 15000
 });
 
+// helper to read cookie (if you prefer cookie-based source)
+// function getCookie(name) {
+//   return document.cookie.split('; ').find(c => c.startsWith(name + '='))?.split('=')[1] || null;
+// }
+function getCookie(name) {
+  const m = document.cookie.split('; ').find(c => c.startsWith(name + '='));
+  if (!m) return null;
+  return decodeURIComponent(m.split('=')[1] || '');
+}
+
+
 // module-level tokens in memory
 let accessToken = null;
 let csrfToken = null;
@@ -57,6 +68,18 @@ function onAccessTokenUpdated(newToken, newCsrf) {
 //     throw err;
 //   }
 // }
+// ensure headers include csrf + authorization for every request
+api.interceptors.request.use((config) => {
+  // attach Authorization if set
+  if (accessToken) config.headers['Authorization'] = `Bearer ${accessToken}`;
+
+  // prefer in-memory csrfToken, fallback to cookie
+  const token = csrfToken || getCookie('csrf');
+  if (token) config.headers['x-csrf-token'] = token;
+
+  // do not set Content-Type for FormData; axios will handle it automatically
+  return config;
+}, (err) => Promise.reject(err));
 
 api.interceptors.response.use(
   res => res,
@@ -108,6 +131,8 @@ api.interceptors.response.use(
 export async function login(email, password) {
   const res = await api.post('/admin/login', { email, password });
   // backend returns { accessToken, csrfToken }
+  const { accessToken: at, csrfToken: ct } = res.data;
+  setTokens(at, ct); // store tokens in memory for buildHeaders() & interceptor
   return res.data;
 }
 
@@ -151,7 +176,7 @@ export async function adminDeleteProject(id) {
 export async function adminUploadImage(file) {
   const form = new FormData();
   form.append('file', file);
-  const headers = buildHeaders(); // axios will set Content-Type automatically for FormData
-  const res = await api.post('/admin/upload', form, { headers });
+  //const headers = buildHeaders(); // axios will set Content-Type automatically for FormData
+  const res = await api.post('/admin/upload', form);
   return res.data; // { url }
 }

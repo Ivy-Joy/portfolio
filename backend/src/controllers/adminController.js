@@ -27,57 +27,78 @@ function hashTokenId(jti) {
   return crypto.createHash('sha256').update(jti).digest('hex');
 }
 
+const isProd = process.env.NODE_ENV === 'production';
+
+const refreshCookieOptions = {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: 'none', // REQUIRED for cross-site (Vercel ↔ Render)
+  path: '/',
+  maxAge: 7 * 24 * 60 * 60 * 1000
+};
+
+const csrfCookieOptions = {
+  httpOnly: false, // must be readable by JS
+  secure: isProd,
+  sameSite: 'none',
+  path: '/',
+  maxAge: 7 * 24 * 60 * 60 * 1000
+};
+
+
 // --- LOGIN ---
 // Validates credentials, issues access token (returned) and refresh token (httpOnly cookie).
 export async function login(req, res) {
   try {
     const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ message: 'Missing fields' });
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Missing fields' });
+    }
 
     const admin = await Admin.findOne({ email });
-    if (!admin) return res.status(401).json({ message: 'Invalid credentials' });
+    if (!admin) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
 
     const ok = await bcrypt.compare(password, admin.passwordHash);
-    if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
+    if (!ok) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
 
-    // create jti for refresh token (rotation)
+    // --- refresh token (rotation) ---
     const jti = crypto.randomBytes(32).toString('hex');
-    const refreshPayload = { id: admin._id.toString(), jti };
-    const refreshToken = signRefreshToken(refreshPayload);
-
-    // store hashed jti in DB for rotation and revocation
     admin.refreshTokenHash = hashTokenId(jti);
     await admin.save();
 
-    // access token (short-lived) returned in body
-    const accessToken = signAccessToken({ id: admin._id.toString(), role: 'admin' });
+    const refreshToken = signRefreshToken({
+      id: admin._id.toString(),
+      jti
+    });
 
-    // create csrf token for double-submit: random string (can reuse jti or create new)
+    // --- access token ---
+    const accessToken = signAccessToken({
+      id: admin._id.toString(),
+      role: 'admin'
+    });
+
+    // --- csrf token (double-submit) ---
     const csrfToken = crypto.randomBytes(24).toString('hex');
 
-    // set cookies
-    res.cookie('rt', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      path: '/api/admin/refresh',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-    });
+    // --- set cookies ---
+    res.cookie('rt', refreshToken, refreshCookieOptions);
+    res.cookie('csrf', csrfToken, csrfCookieOptions);
 
-    // csrf cookie must be readable by JS (not httpOnly)
-    res.cookie('csrf', csrfToken, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
+    // --- respond ---
+    return res.json({
+      accessToken,
+      csrfToken
     });
-
-    return res.json({ accessToken, csrfToken });
   } catch (err) {
-    console.error('Login error', err);
+    console.error('Login error:', err);
     return res.status(500).json({ message: 'Server error' });
   }
 }
+
 
 // --- REFRESH (rotation) ---
 // Reads refresh token from httpOnly cookie 'rt', validates, rotates jti, issues new refresh cookie and access token.
@@ -85,60 +106,57 @@ export async function login(req, res) {
 export async function refreshToken(req, res) {
   try {
     const token = req.cookies?.rt;
-    if (!token) return res.status(401).json({ message: 'No refresh token' });
+    if (!token) {
+      return res.status(401).json({ message: 'No refresh token' });
+    }
 
     let payload;
     try {
       payload = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-    } catch (err) {
+    } catch {
       return res.status(401).json({ message: 'Invalid refresh token' });
     }
 
-    const adminId = payload.id;
-    const tokenJti = payload.jti;
-    const admin = await Admin.findById(adminId);
-    if (!admin || !admin.refreshTokenHash) return res.status(401).json({ message: 'Invalid session' });
+    const admin = await Admin.findById(payload.id);
+    if (!admin || !admin.refreshTokenHash) {
+      return res.status(401).json({ message: 'Invalid session' });
+    }
 
-    // check stored hashed jti
-    const tokenHash = hashTokenId(tokenJti);
-    if (tokenHash !== admin.refreshTokenHash) {
-      // token reuse / theft detected -> revoke all sessions
+    // --- rotation protection ---
+    const expectedHash = hashTokenId(payload.jti);
+    if (expectedHash !== admin.refreshTokenHash) {
       admin.refreshTokenHash = null;
       await admin.save();
       return res.status(401).json({ message: 'Refresh token revoked' });
     }
 
-    // rotation: generate new jti & tokens
+    // --- rotate tokens ---
     const newJti = crypto.randomBytes(32).toString('hex');
-    const newRefreshPayload = { id: adminId, jti: newJti };
-    const newRefreshToken = signRefreshToken(newRefreshPayload);
-    const newAccessToken = signAccessToken({ id: adminId, role: 'admin' });
-
-    // persist new jti hash
     admin.refreshTokenHash = hashTokenId(newJti);
     await admin.save();
 
-    // set new refresh cookie
-    res.cookie('rt', newRefreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      path: '/api/admin/refresh',
-      maxAge: 7 * 24 * 60 * 60 * 1000
+    const newRefreshToken = signRefreshToken({
+      id: admin._id.toString(),
+      jti: newJti
     });
 
-    // rotate csrf token (optional)
+    const newAccessToken = signAccessToken({
+      id: admin._id.toString(),
+      role: 'admin'
+    });
+
     const newCsrf = crypto.randomBytes(24).toString('hex');
-    res.cookie('csrf', newCsrf, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
 
-    return res.json({ accessToken: newAccessToken, csrfToken: newCsrf });
+    // --- set rotated cookies ---
+    res.cookie('rt', newRefreshToken, refreshCookieOptions);
+    res.cookie('csrf', newCsrf, csrfCookieOptions);
+
+    return res.json({
+      accessToken: newAccessToken,
+      csrfToken: newCsrf
+    });
   } catch (err) {
-    console.error('Refresh error', err);
+    console.error('Refresh error:', err);
     return res.status(500).json({ message: 'Server error' });
   }
 }
