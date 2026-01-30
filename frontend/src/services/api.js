@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_BASE || 'https://portfolio-backend-fgex.onrender.com',
+  withCredentials: true,
   timeout: 10000
 });
 

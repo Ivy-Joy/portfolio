@@ -36,6 +36,8 @@ router.post('/logout', logout);
 
 // Protect everything below with access token middleware
 router.use(requireAdmin);
+//CSRF AFTER Auth, covers 
+//router.use(csrfGuard);
 
 // GET (safe)
 router.get('/projects', listProjects);

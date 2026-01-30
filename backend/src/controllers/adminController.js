@@ -31,7 +31,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const refreshCookieOptions = {
   httpOnly: true,
-  secure: isProd,
+  secure: true, //force it to true
   sameSite: 'none', // REQUIRED for cross-site (Vercel ↔ Render)
   path: '/',
   maxAge: 7 * 24 * 60 * 60 * 1000
@@ -39,8 +39,8 @@ const refreshCookieOptions = {
 
 const csrfCookieOptions = {
   httpOnly: false, // must be readable by JS
-  secure: isProd,
-  sameSite: 'none',
+  secure: true, //Must be true for "none" to work
+  sameSite: 'none', //Must be "none" for Vercel -> Render requests"
   path: '/',
   maxAge: 7 * 24 * 60 * 60 * 1000
 };

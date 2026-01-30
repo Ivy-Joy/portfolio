@@ -21,7 +21,7 @@ const app = express();
 // }));
 
 // normalizing frontend origin and creating CORS options
-const rawFrontend = process.env.FRONTEND_URL || '';
+const rawFrontend = process.env.FRONTEND_URL || 'https://portfolio-umber-tau-54.vercel.app';
 const FRONTEND_URL = rawFrontend.replace(/\/+$/, ''); // remove trailing slash(es)
 
 // building cors options object used both for simple requests and preflight
