@@ -225,146 +225,75 @@ export async function getProjectById(req, res) {
     res.status(500).json({ message: 'Server error' });
   }
 }
-
-// export async function createProject(req, res) {
-//   // If a file was uploaded, upload it to cloudinary and set coverImage
-//   let coverImageUrl = req.body.coverImage;
-//   if (req.file) {
-//     const dataUri = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
-//     const result = await cloudinary.uploader.upload(dataUri, {
-//       folder: 'portfolio_images',
-//       resource_type: 'image',
-//       overwrite: false
-//     });
-//     coverImageUrl = result.secure_url;
-//   }
-
-//   const body = { ...req.body, coverImage: coverImageUrl };
-//   const project = new Project(body);
-//   await project.save();
-//   res.status(201).json(project);
-// }
-
 export async function createProject(req, res) {
   try {
-    // 1. Normalize body fields
     const parsedBody = parsePossibleArrays(req.body);
-
-    // 2. Handle cover image upload - // If req.file exists (fallback), upload it. 
-    // Otherwise, use the coverImage URL sent in the JSON body.
     let coverImageUrl = parsedBody.coverImage || '';
 
+    // If a file is sent directly to this route via Multipart
     if (req.file) {
       const dataUri = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
-
-      const upload = await cloudinary.uploader.upload(dataUri, {
-        folder: 'portfolio_images',
-        //resource_type: 'image',
-        //overwrite: false
-      });
-
+      const upload = await cloudinary.uploader.upload(dataUri, { folder: 'portfolio_images' });
       coverImageUrl = upload.secure_url;
     }
 
-    // 3. Build project payload And save project
     const project = new Project({
       ...parsedBody,
-      coverImage: coverImageUrl // This will now correctly use the URL from the frontend
+      coverImage: coverImageUrl
     });
 
-      await project.save();
-      return res.status(201).json(project);
-    } catch (err) {
-      // Slug uniqueness protection
-      /*if (err.code === 11000 && err.keyPattern?.slug) {
-        return res.status(409).json({ message: 'Slug already exists' });*/
-      if (err.code === 11000) return res.status(409).json({ message: 'Slug already exists' });
-      res.status(500).json({ message: 'Failed to create project' });
-    }
-  }
-
-    // 4. Respond
-    /*return res.status(201).json(project);
-
+    await project.save();
+    return res.status(201).json(project);
   } catch (err) {
+    if (err.code === 11000) return res.status(409).json({ message: 'Slug already exists' });
     console.error('Create project error:', err);
     return res.status(500).json({ message: 'Failed to create project' });
   }
-}*/
-
-
-// export async function updateProject(req, res) {
-//   const { id } = req.params;
-//   const updates = { ...req.body };
-
-//   if (req.file) {
-//     const dataUri = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
-//     const result = await cloudinary.uploader.upload(dataUri, {
-//       folder: 'portfolio_images',
-//       resource_type: 'image',
-//       overwrite: false
-//     });
-//     updates.coverImage = result.secure_url;
-//   }
-
-//   const project = await Project.findByIdAndUpdate(id, updates, { new: true });
-//   if (!project) return res.status(404).json({ message: 'Not found' });
-//   res.json(project);
-// }
+}
 
 export async function updateProject(req, res) {
   try {
     const { id } = req.params;
 
-    // 1. Normalize incoming updates
+    // 1. Normalize incoming updates (handles stack, screenshots, metrics)
     const parsedUpdates = parsePossibleArrays(req.body);
 
-    //  IMPORTANT: never overwrite image unless new one is uploaded
-    //delete parsedUpdates.coverImage;
-
-    // 2. Handle optional new cover image
+    // 2. Handle optional new cover image (File Upload via Multipart)
+    // If the frontend sends a new file, we use it. 
+    // If not, we keep whatever is in parsedUpdates.coverImage (the URL string).
     if (req.file) {
       const dataUri = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
-
       const upload = await cloudinary.uploader.upload(dataUri, {
         folder: 'portfolio_images',
-        //resource_type: 'image',
-        //overwrite: false
       });
-
       parsedUpdates.coverImage = upload.secure_url;
     }
 
-    // 3. Update project
-      const project = await Project.findByIdAndUpdate(
-        id,
-        { $set: parsedUpdates },
-        { new: true, runValidators: true }
-      );
-      if (!project) return res.status(404).json({ message: 'Project not found' });
-      return res.json(project);
-    } catch (err) {
-      // Slug uniqueness protection
-      /*if (err.code === 11000 && err.keyPattern?.slug) {
-        return res.status(409).json({ message: 'Slug already exists' });
-      }
-      throw err;*/
-      res.status(500).json({ message: 'Failed to update project' });
-    }
-  }
+    // 3. Update project in MongoDB
+    const project = await Project.findByIdAndUpdate(
+      id,
+      { $set: parsedUpdates },
+      { new: true, runValidators: true }
+    );
 
-    /*if (!project) {
+    if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
 
-    // 4. Respond
     return res.json(project);
 
   } catch (err) {
+    // Log the actual error so you can see it in Render Logs
     console.error('Update project error:', err);
-    return res.status(500).json({ message: 'Failed to update project' });
+
+    // Slug uniqueness protection
+    if (err.code === 11000) {
+      return res.status(409).json({ message: 'A project with this slug already exists' });
+    }
+
+    res.status(500).json({ message: 'Failed to update project', error: err.message });
   }
-}*/
+}
 
 export async function deleteProject(req, res) {
   const { id } = req.params;
@@ -377,13 +306,16 @@ export async function uploadImage(req, res) {
   try{
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
 
-    // Upload to Cloudinary using the path provided by Multer
-    const result = await cloudinary.uploader.upload(req.file.path, {
+    // 1. Create the Data URI from the buffer
+    const dataUri = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+
+    // Upload the DATA URI to Cloudinary using the path provided by Multer
+    const result = await cloudinary.uploader.upload(dataUri, {
       folder: 'portfolio_projects',
+      resource_type: 'auto' // Good practice for different file types
   });
 
-  const dataUri = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
-
+  // 3. Respond with the URL
   /*try {
     const result = await cloudinary.uploader.upload(dataUri, {
       folder: 'portfolio_images',
@@ -392,10 +324,10 @@ export async function uploadImage(req, res) {
     });*/
     // result.secure_url is the hosted URL
     //res.json({ url: result.secure_url, raw: result });
-    res.json({ url: result.secure_url });
+    return res.json({ url: result.secure_url });
   } catch (err) {
     console.error('Cloudinary upload error', err);
-    res.status(500).json({ message: 'Upload failed', error: err.message });
+    return res.status(500).json({ message: 'Upload failed', error: err.message });
   }
 }
 /* Login sets an HTTP-only rt cookie and a readable csrf cookie (double-submit). It returns the accessToken (to be stored in React memory) and csrfToken for immediate use.

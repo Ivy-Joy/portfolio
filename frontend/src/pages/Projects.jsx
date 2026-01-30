@@ -1,3 +1,4 @@
+//frontend/src/pages/Projects.jsx
 import React, { useEffect, useState } from 'react';
 import { fetchProjects } from '../services/api';
 import ProjectCard from '../components/ProjectCard';
