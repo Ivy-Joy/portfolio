@@ -8,8 +8,10 @@ const ProjectSchema = new mongoose.Schema({
   role: { type: String },
   stack: [String],
   year: Number,
-  coverImage: String,                // URL or path
-  screenshots: [String],
+  //coverImage: String,                // URL or path
+  coverImage: { type: String }, // Must be a String for the URL
+  //screenshots: [String],
+  screenshots: [{ type: String }], // Must be an Array of Strings
   repoUrl: String,
   demoUrl: String,
   metrics: mongoose.Schema.Types.Mixed, // freeform object: { users: 1000, txPerMonth: 200 }

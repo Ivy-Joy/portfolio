@@ -112,8 +112,12 @@ export const adminUpdateProject = (id, payload) => api.put(`/admin/projects/${id
 export const adminDeleteProject = (id) => api.delete(`/admin/projects/${id}`).then(res => res.data);
 
 export async function adminUploadImage(file) {
-  const form = new FormData();
+  const form = new FormData(); // 'file' must match the key expected by Multer on backend 
   form.append('file', file);
+
+  //Axios handle the Content-Type boundary for FormData
   const res = await api.post('/admin/upload', form);
+
+  // Return the data object containing the { url }
   return res.data;
 }

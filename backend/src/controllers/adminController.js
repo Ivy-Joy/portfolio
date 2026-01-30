@@ -250,7 +250,8 @@ export async function createProject(req, res) {
     // 1. Normalize body fields
     const parsedBody = parsePossibleArrays(req.body);
 
-    // 2. Handle cover image upload (optional)
+    // 2. Handle cover image upload - // If req.file exists (fallback), upload it. 
+    // Otherwise, use the coverImage URL sent in the JSON body.
     let coverImageUrl = parsedBody.coverImage || '';
 
     if (req.file) {
@@ -258,40 +259,38 @@ export async function createProject(req, res) {
 
       const upload = await cloudinary.uploader.upload(dataUri, {
         folder: 'portfolio_images',
-        resource_type: 'image',
-        overwrite: false
+        //resource_type: 'image',
+        //overwrite: false
       });
 
       coverImageUrl = upload.secure_url;
     }
 
-    // 3. Build project payload
-    const projectData = {
+    // 3. Build project payload And save project
+    const project = new Project({
       ...parsedBody,
-      coverImage: coverImageUrl
-    };
+      coverImage: coverImageUrl // This will now correctly use the URL from the frontend
+    });
 
-    // 4. Save project
-    const project = new Project(projectData);
-
-    try {
       await project.save();
+      return res.status(201).json(project);
     } catch (err) {
       // Slug uniqueness protection
-      if (err.code === 11000 && err.keyPattern?.slug) {
-        return res.status(409).json({ message: 'Slug already exists' });
-      }
-      throw err;
+      /*if (err.code === 11000 && err.keyPattern?.slug) {
+        return res.status(409).json({ message: 'Slug already exists' });*/
+      if (err.code === 11000) return res.status(409).json({ message: 'Slug already exists' });
+      res.status(500).json({ message: 'Failed to create project' });
     }
+  }
 
-    // 5. Respond
-    return res.status(201).json(project);
+    // 4. Respond
+    /*return res.status(201).json(project);
 
   } catch (err) {
     console.error('Create project error:', err);
     return res.status(500).json({ message: 'Failed to create project' });
   }
-}
+}*/
 
 
 // export async function updateProject(req, res) {
@@ -320,8 +319,8 @@ export async function updateProject(req, res) {
     // 1. Normalize incoming updates
     const parsedUpdates = parsePossibleArrays(req.body);
 
-    // 🚨 IMPORTANT: never overwrite image unless new one is uploaded
-    delete parsedUpdates.coverImage;
+    //  IMPORTANT: never overwrite image unless new one is uploaded
+    //delete parsedUpdates.coverImage;
 
     // 2. Handle optional new cover image
     if (req.file) {
@@ -329,30 +328,32 @@ export async function updateProject(req, res) {
 
       const upload = await cloudinary.uploader.upload(dataUri, {
         folder: 'portfolio_images',
-        resource_type: 'image',
-        overwrite: false
+        //resource_type: 'image',
+        //overwrite: false
       });
 
       parsedUpdates.coverImage = upload.secure_url;
     }
 
     // 3. Update project
-    let project;
-    try {
-      project = await Project.findByIdAndUpdate(
+      const project = await Project.findByIdAndUpdate(
         id,
         { $set: parsedUpdates },
         { new: true, runValidators: true }
       );
+      if (!project) return res.status(404).json({ message: 'Project not found' });
+      return res.json(project);
     } catch (err) {
       // Slug uniqueness protection
-      if (err.code === 11000 && err.keyPattern?.slug) {
+      /*if (err.code === 11000 && err.keyPattern?.slug) {
         return res.status(409).json({ message: 'Slug already exists' });
       }
-      throw err;
+      throw err;*/
+      res.status(500).json({ message: 'Failed to update project' });
     }
+  }
 
-    if (!project) {
+    /*if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
 
@@ -363,7 +364,7 @@ export async function updateProject(req, res) {
     console.error('Update project error:', err);
     return res.status(500).json({ message: 'Failed to update project' });
   }
-}
+}*/
 
 export async function deleteProject(req, res) {
   const { id } = req.params;
@@ -373,18 +374,25 @@ export async function deleteProject(req, res) {
 
 // IMAGE UPLOAD (Multer memory buffer -> Cloudinary)
 export async function uploadImage(req, res) {
-  if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+  try{
+    if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+
+    // Upload to Cloudinary using the path provided by Multer
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'portfolio_projects',
+  });
 
   const dataUri = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
 
-  try {
+  /*try {
     const result = await cloudinary.uploader.upload(dataUri, {
       folder: 'portfolio_images',
       resource_type: 'image',
       overwrite: false
-    });
+    });*/
     // result.secure_url is the hosted URL
-    res.json({ url: result.secure_url, raw: result });
+    //res.json({ url: result.secure_url, raw: result });
+    res.json({ url: result.secure_url });
   } catch (err) {
     console.error('Cloudinary upload error', err);
     res.status(500).json({ message: 'Upload failed', error: err.message });

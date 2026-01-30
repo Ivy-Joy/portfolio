@@ -42,6 +42,7 @@ export default function ProjectForm({ initial = null, onSubmit, onUpload, onCanc
   function submit(e) {
     e.preventDefault();
     const payload = {
+      ...form, // Spread the current form state
       title: form.title,
       slug: form.slug,
       summary: form.summary,
@@ -57,7 +58,8 @@ export default function ProjectForm({ initial = null, onSubmit, onUpload, onCanc
       //   : [],
       screenshots: form.screenshots,
 
-      metrics: form.metrics ? JSON.parse(form.metrics) : {}
+      metrics: form.metrics ? JSON.parse(form.metrics) : {},
+      published: true //Ensure this is true so the Public list () shows it
     };
     onSubmit(payload);
     // clear if creating
@@ -74,11 +76,15 @@ export default function ProjectForm({ initial = null, onSubmit, onUpload, onCanc
     try {
       const uploaded = [];
       for (const file of files) {
-        const url = await onUpload(file);
+        const url = await onUpload(file); // This calls handleUpload in ProjectsAdmin
         uploaded.push(url);
       }
       //update('screenshots', [...form.screenshots, ...uploaded]);
-      update('screenshots', prev => [...prev, ...uploaded]);
+      //update('screenshots', prev => [...prev, ...uploaded]);
+
+      // FIX: Calculate the new array and pass it directly to update
+      const nextScreenshots = [...form.screenshots, ...uploaded];
+      update('screenshots', nextScreenshots);
     } catch (err) {
       console.error(err);
       alert('Screenshot upload failed');
