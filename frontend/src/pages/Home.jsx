@@ -1,5 +1,5 @@
 //src/pages/Home.jsx
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchProjects } from '../services/api';
 
@@ -48,7 +48,7 @@ export default function Home() {
   useEffect(() => {
     fetchProjects()
       .then(data => {
-        setProjects(data || []);
+        setProjects(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(err => {
@@ -57,20 +57,42 @@ export default function Home() {
       });
   }, []);
 
+  /* Separate Data Sources */
+  const carouselProjects = projects; // ALL projects
+  const featuredProjects = projects.slice(0, 3); // ONLY first 3
+
+  /* Prevent stale index */
+  useEffect(() => {
+    if (index >= carouselProjects.length) {
+      setIndex(0);
+    }
+  }, [carouselProjects.length, index]);
+
   /* Autoplay */
   useEffect(() => {
-    if (paused || projects.length === 0) return;
+    if (paused || carouselProjects.length === 0) return;
 
     autoplayRef.current = setInterval(() => {
-      setIndex(i => (i + 1) % projects.length);
+      setIndex(i => (i + 1) % carouselProjects.length);
     }, 4000);
 
     return () => clearInterval(autoplayRef.current);
-  }, [paused, projects.length]);
+  }, [paused, carouselProjects.length]);
 
   // Helpers
-  const next = React.useCallback(() => { setIndex((i) => (i + 1) % projects.length); }, [projects.length]);
-  const prev = React.useCallback(() => { setIndex((i) => (i - 1 + projects.length) % projects.length); }, [projects.length]);
+  //const next = React.useCallback(() => { setIndex((i) => (i + 1) % projects.length); }, [projects.length]);
+  //const prev = React.useCallback(() => { setIndex((i) => (i - 1 + projects.length) % projects.length); }, [projects.length]);
+
+   /* Navigation */
+  const next = useCallback(() => {
+    if (!carouselProjects.length) return;
+    setIndex(i => (i + 1) % carouselProjects.length);
+  }, [carouselProjects.length]);
+
+  const prev = useCallback(() => {
+    if (!carouselProjects.length) return;
+    setIndex(i => (i - 1 + carouselProjects.length) % carouselProjects.length);
+  }, [carouselProjects.length]);
 
   /* Keyboard navigation */
   useEffect(() => {
@@ -94,7 +116,7 @@ export default function Home() {
     if (delta > 0) prev(); else next();
   };
 
-  const featured = projects.slice(0, 3);
+  //const featured = projects.slice(0, 3);
   
   // const activeProject = FEATURED[index];
 
@@ -125,12 +147,12 @@ export default function Home() {
         >
           {/*An aria-live announcement for screen readers */}
           <div className="sr-only" aria-live="polite">
-            {featured[index]?.title ?? ''}
+            {carouselProjects[index]?.title ?? ''}
           </div>
 
           {loading && <div className="h-64 bg-slate-100 rounded animate-pulse" />}
 
-          {!loading && projects.length > 0 && (
+          {!loading && carouselProjects.length > 0 && (
             <div
               className="bg-white rounded shadow overflow-hidden"
               role="region"
@@ -141,7 +163,7 @@ export default function Home() {
 
             {/* Slide images */}
             <div className="relative h-64 md:h-80 lg:h-96">
-              {featured.map((item, i) => (
+              {carouselProjects.map((item, i) => (
                 <figure
                   key={item.slug}
                   className={`absolute inset-0 transition-opacity duration-700 ${i === index ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
@@ -188,12 +210,12 @@ export default function Home() {
       <section className="mt-12">
         <h2 className="text-2xl font-semibold mb-4">Featured projects</h2>
 
-        {featured.length === 0 && (
+        {featuredProjects.length === 0 && (
           <div className="text-slate-500">Projects coming soon…</div>
         )}
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featured.map((p) => (
+          {featuredProjects.map((p) => (
             <Link key={p.slug} to={`/projects/${p.slug}`} className="block bg-white rounded shadow overflow-hidden hover:shadow-lg transition">
               <div className="h-44 bg-slate-100 overflow-hidden">
                 <img src={p.coverImage} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition" loading="lazy" />
