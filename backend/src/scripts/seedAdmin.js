@@ -12,7 +12,7 @@ const ADMIN_PASS = process.env.ADMIN_PASS;
 const BCRYPT_ROUNDS = Number(process.env.BCRYPT_ROUNDS || 12);
 
 if (!ADMIN_PASS) {
-  throw new Error('❌ ADMIN_PASS is missing in .env');
+  throw new Error('ADMIN_PASS is missing in .env');
 }
 
 async function run() {

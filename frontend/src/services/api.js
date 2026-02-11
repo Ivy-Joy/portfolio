@@ -1,7 +1,8 @@
+//src/services/api.js
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE || 'https://portfolio-backend-fgex.onrender.com',
+  baseURL: import.meta.env.VITE_API_BASE || 'https://portfolio-backend-fgex.onrender.com/api',
   withCredentials: true,
   timeout: 10000
 });

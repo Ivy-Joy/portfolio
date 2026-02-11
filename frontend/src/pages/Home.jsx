@@ -1,3 +1,4 @@
+//src/pages/Home.jsx
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchProjects } from '../services/api';
@@ -282,8 +283,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
     </div>
   );
 }
