@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchProjects } from '../services/api';
+import localProjects from '../data/projects'; // 1. Import local data
 
 // At the top of the file, before Home()
 const EmailButton = () => {
@@ -36,26 +37,33 @@ const EmailButton = () => {
 
 
 export default function Home() {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(localProjects || []);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(localProjects.length === 0);
 
   const autoplayRef = useRef(null);
   const touchStartX = useRef(null);
 
-  /* Fetch real projects */
-  useEffect(() => {
+    useEffect(() => {
+      // 3. GUARD: If localProjects exists, do not fetch from API
+    if (projects.length > 0) return;
+
+    let isMounted = true;
+    // This will now resolve instantly with local data
     fetchProjects()
       .then(data => {
-        setProjects(Array.isArray(data) ? data : []);
-        setLoading(false);
+        if (isMounted) {
+          setProjects(Array.isArray(data) ? data : []);
+        }
       })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
+      .catch(() => {}) // Silent fail since it's just a portfolio
+      .finally(() => {
+        if (isMounted) setLoading(false);
       });
-  }, []);
+
+    return () => { isMounted = false; };
+  }, [projects.length]);
 
   /* Separate Data Sources */
   const carouselProjects = projects; // ALL projects

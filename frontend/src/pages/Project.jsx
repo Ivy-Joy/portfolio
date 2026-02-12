@@ -2,23 +2,48 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchProject } from '../services/api';
+import localProjects from '../data/projects';
 
 export default function Project() {
   const { slug } = useParams();
-  const [project, setProject] = useState(null);
+
+  // Initialize state: Check if it exists locally BEFORE the first render
+  const initialProject = localProjects.find(p => p.slug === slug);
+
+  const [project, setProject] = useState(initialProject || null);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(!initialProject);
 
-  useEffect(() => {
+    useEffect(() => {
+
+    if (project) 
+      return; // 3. EXIT EFFECT: No async call, no cascading renders.
+
+    // 4. Async Fallback: Only runs if the project wasn't in the local file
+    let isMounted = true; // Cleanup flag to prevent state updates on unmounted component
+
     fetchProject(slug)
-      .then(setProject)
+      .then((data) => {
+        if (isMounted) {
+          setProject(data);
+          setError(false);
+        }
+      })
       .catch(err => {
-        console.error(err);
-        setError(true);
+        if (isMounted) {
+          console.error("Fetch error:", err);
+          setError(true);
+        }
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
       });
-  }, [slug]);
+      return () => { isMounted = false; };
+  }, [slug, project]);
 
-  if (error) return <div className="py-12 text-center">Project not found. <Link to="/projects" className="underline">Go back</Link></div>;
-  if (!project) return <div className="py-12 text-center text-gray-500 animate-pulse">Loading project details...</div>;
+  if (loading) return <div className="py-12 text-center text-gray-500 animate-pulse">Loading project details...</div>;
+  if (error || !project) return <div className="py-12 text-center">Project not found. <Link to="/projects" className="underline">Go back</Link></div>;
+  
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
