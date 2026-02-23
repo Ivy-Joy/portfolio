@@ -91,10 +91,11 @@ const localProjects = [
     year: 2026,
     coverImage: "/images/ErrandoLandingPage.jpeg",
     screenshots: [
-      "/images/projects/errando/client-app.jpg",
-      "/images/projects/errando/operator-app.jpg",
-      "/images/projects/errando/admin-dashboard.jpg",
-      "/images/projects/errando/errand-proof.jpg"
+      "/images/Errando/ErrandoAppOnboarding.png",
+      "/images/Errando/ClientBookingErrandPage.png",
+      // "/images/Errando/operator-app.jpg",
+      // "/images/Errando/admin-dashboard.jpg",
+      // "/images/Errando/errand-proof.jpg"
     ],
     repoUrl: 'https://github.com/Ivy-Joy/Errando',
     demoUrl: ''
@@ -115,7 +116,10 @@ const localProjects = [
     stack: ['React', 'Node.js', 'Express', 'MongoDB'],
     year: 2024,
     coverImage: "/images/CivicHub.jpeg",
-    screenshots: ['/images/CivicHub.jpeg'],
+    screenshots: [
+      "/images/CivicHub/LocatePollingStationAndKYL.png",
+      "images/CivicHub/ElectionDates.png"
+    ],
     repoUrl: '',
     demoUrl: ''
   },
@@ -132,12 +136,13 @@ const localProjects = [
     year: 2025,
     coverImage: '/images/LakeCityCreativesArt.jpeg',
     screenshots: [
-      '/images/LakeCityCreativesArt.jpeg',
-      "/images/projects/lakecity/home-hero.jpg",
-      "/images/projects/lakecity/product-page.jpg",
-      "/images/projects/lakecity/artisan-profile.jpg",
-      "/images/projects/lakecity/checkout-mpesa.jpg",
-      "/images/projects/lakecity/admin-dashboard.jpg"
+      "images/LCC/Shop-page.png",
+      "/images/LCC/AboutUs-Page.png",
+      "/images/LCC/Blog-Page.png",
+      "/images/LCC/Cart-Page.png",
+      "/images/LCC/ContactUs-Page.png",
+      // "/images/projects/lakecity/checkout-mpesa.jpg",
+      // "/images/projects/lakecity/admin-dashboard.jpg"
     ],
     repoUrl: '',
     demoUrl: ''
