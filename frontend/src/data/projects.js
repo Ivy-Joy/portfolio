@@ -42,7 +42,8 @@ const localProjects = [
       //"/images/projects/directaid/provider-verification.jpg",
       "/images/directaid/admin-dashboard.png"
     ],
-    repoUrl: 'https://github.com/Ivy-Joy/DirectAid',
+    //repoUrl: 'https://github.com/Ivy-Joy/DirectAid',
+    repoUrl: "https://github.com/DadaDevelopers/dada-devs-labs-dada-lab-3/tree/dev",
     // demoUrl: "https://directaid.africa",
     demoUrl: "https://directaid.vercel.app/"
   },
