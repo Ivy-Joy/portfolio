@@ -118,7 +118,7 @@ const localProjects = [
     coverImage: "/images/CivicHub.jpeg",
     screenshots: [
       "/images/CivicHub/LocatePollingStationAndKYL.png",
-      "images/CivicHub/ElectionDates.png"
+      "/images/CivicHub/ElectionDates.png"
     ],
     repoUrl: '',
     demoUrl: ''
@@ -136,7 +136,7 @@ const localProjects = [
     year: 2025,
     coverImage: '/images/LakeCityCreativesArt.jpeg',
     screenshots: [
-      "images/LCC/Shop-page.png",
+      "/images/LCC/Shop-page.png",
       "/images/LCC/AboutUs-Page.png",
       "/images/LCC/Blog-Page.png",
       "/images/LCC/Cart-Page.png",
