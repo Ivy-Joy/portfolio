@@ -35,15 +35,16 @@ const localProjects = [
     year: 2026,
     coverImage: "/images/DirectAidLandingPage.jpeg",
     screenshots: [
-      '/images/DirectAidBeneficiaryProfile-1.png',
-      '/images/DirectAidSelectRole-2.png',
-      "/images/projects/directaid/donation-flow.jpg",
-      "/images/projects/directaid/guest-checkout.jpg",
-      "/images/projects/directaid/provider-verification.jpg",
-      "/images/projects/directaid/admin-dashboard.jpg"
+      // "/images/DirectAidBeneficiaryProfile-1.png",
+      "/images/directaid/beneficiary-dashboard.png",
+      //"/images/projects/directaid/donation-flow.jpg",
+      //"/images/projects/directaid/guest-checkout.jpg",
+      //"/images/projects/directaid/provider-verification.jpg",
+      "/images/directaid/admin-dashboard.png"
     ],
     repoUrl: 'https://github.com/Ivy-Joy/DirectAid',
-    demoUrl: "https://directaid.africa"
+    // demoUrl: "https://directaid.africa",
+    demoUrl: "https://directaid.vercel.app/"
   },
   {
     _id: '2',
