@@ -97,8 +97,8 @@ const localProjects = [
       // "/images/Errando/admin-dashboard.jpg",
       // "/images/Errando/errand-proof.jpg"
     ],
-    repoUrl: 'https://github.com/Ivy-Joy/Errando',
-    demoUrl: ''
+    repoUrl: 'https://github.com/Ivy-Joy/Errando'
+    // demoUrl: ''
   },
   {
     _id: '3',
@@ -121,7 +121,7 @@ const localProjects = [
       "/images/CivicHub/ElectionDates.png"
     ],
     repoUrl: '',
-    demoUrl: ''
+    demoUrl: 'https://civic-hub-tau.vercel.app/'
   },
   {
     _id: '4',
@@ -145,8 +145,57 @@ const localProjects = [
       // "/images/projects/lakecity/admin-dashboard.jpg"
     ],
     repoUrl: '',
-    demoUrl: ''
+    demoUrl: 'https://lake-city-creative-arts.vercel.app/'
+  },
+  {
+  "_id": "acre-1",
+  "title": "ACRE — Automated Compliance & ROI Engine",
+  "slug": "acre",
+  "summary": "ACRE (Automated Compliance & ROI Engine) is a read-only, API-first metadata intelligence platform that automatically links publications to grants, validates data availability and acknowledgements, scores \"Data Health\", and generates donor-ready reports — dramatically reducing manual M&E work for foundations and research programmes.",
+  "description": "<p>ACRE is a premium, non-intrusive platform built to solve the exact pains facing programme teams and M&E leads: missing grant acknowledgements, broken data links, researcher disambiguation, and slow donor reporting. It connects to public metadata sources (CrossRef, ORCID, Open Research Africa, PubMed) using read-only connectors, ingests internal grant lists (CSV / Google Sheets), and produces auditable outputs without forcing users to change their existing systems.</p>\n\n<p>The core components are designed for production-grade reliability and auditability:</p>\n<ul>\n  <li><strong>Acknowledgement Sentinel</strong> — crawls and parses article metadata to discover missing or incorrect grant acknowledgements and suggests exact grant links.</li>\n  <li><strong>Data-Link Guardian</strong> — continuously validates dataset links (Figshare, Zenodo, institutional repositories) and raises alerts on broken or non-FAIR data.</li>\n  <li><strong>Career-Path Tracer</strong> — tracks researcher trajectories via ORCID and CrossRef so grants can be shown to produce long-term capacity outcomes.</li>\n  <li><strong>Confidence-Based Matcher</strong> — multi-stage entity-resolution pipeline (DOI/ORCID exact, grant-id regex, phonetic & trigram name matching, affiliation/date-window checks, optional semantic embeddings) that auto-links high-confidence matches and surfaces ambiguous ones for 1–2 click human review.</li>\n  <li><strong>Data Health Scoring</strong> — a transparent 0–100 index that combines DOI validity, data availability, ORCID presence, acknowledgement completeness, methods/sample reporting and version status. Each check is logged in a ComplianceLog with evidence for auditors.</li>\n  <li><strong>Semi-Automated Peer Review Triage</strong> — auto-checks (data, methods, statistical reporting), reviewer suggestion engine (TF-IDF / embeddings + COI filters), and structured reviewer forms to speed expert review while preserving human judgement.</li>\n  <li><strong>Donor-Ready Exports</strong> — one-click PDF/PowerPoint report generator using server-side templates (EJS) rendered in headless Chrome (puppeteer-core) or paginated exports for Power BI; files stored behind S3/MinIO links and tracked in the job queue.</li>\n  <li><strong>Operational Safety</strong> — read-only connectors by default; any PII that must be processed passes through a configurable redaction pipeline before reaching ML models. Audit trail for every automated action.</li>\n</ul>\n\n<p>ACRE is designed as a lightweight \"glue\" layer that sits between public scholarly infrastructure and an organisation's internal grant lists. It is optimised for quick pilots (10–100 publications) and can scale to thousands of outputs when connected to OpenSearch/Elasticsearch or a vector DB for semantic features.</p>\n\n<p>Use-cases include automated quarterly donor reports, fast compliance triage before donor audits, proactive alerts for broken data links, and building decade-long researcher career trajectories for long-term impact narratives.</p>",
+  "role": "Product Architect & Full-Stack Engineer",
+  "stack": [
+    "React (Vite) + Tailwind CSS",
+    "Node.js (ES modules) + Express",
+    "MongoDB + Mongoose (primary metadata store)",
+    "Redis + BullMQ (background jobs & queues)",
+    "OpenSearch / Elasticsearch (fuzzy search & phonetic analyzers)",
+    "Vector DB (Pinecone / Milvus) for semantic matching — optional",
+    "CrossRef API, ORCID API, Open Research Africa (ORA) connector",
+    "Puppeteer-core (server-side PDF rendering) + EJS templates",
+    "i18next (EN/FR) for locale exports",
+    "OpenAI embeddings or local embedding model (optional)",
+    "S3 / MinIO storage for report assets",
+    "Docker for sandboxed checks and reproducibility",
+    "ESLint, Jest (tests), CI (GitHub Actions), Vercel for frontend demo"
+  ],
+  "year": 2026,
+  "coverImage": "/images/ACRE/AcreLandingPage.png",
+  "screenshots": [
+    "/images/ACRE/PublicationsPage.png",
+    "/images/ACRE/GrantsPage.png"
+    // "/images/acre/grant-insights.png",
+    // "/images/acre/matcher-audit-ui.png"
+  ],
+  // "repoUrl": "https://github.com/Ivy-Joy/acre-mrm",
+  "demoUrl": "https://acre-mrn.vercel.app/",
+  "featuresHighlights": [
+    "Read-only, API-first connectors: CrossRef, ORCID, ORA, PubMed",
+    "Multi-stage entity resolution (exact → regex → fuzzy → semantic)",
+    "DataHealth 0–100 index with per-check evidence & ComplianceLog",
+    "Admin audit UI for 1–2 click human validation of ambiguous matches",
+    "Background job architecture (BullMQ + Redis) for scalable checks and PDF generation",
+    "Semi-automated peer-review triage with COI checks",
+    "Donor-ready branded PDF/PowerPoint exports and Power BI compatibility",
+    "Multilingual export support (English + French)",
+    "Privacy-first design: PII redaction + audit trails"
+  ],
+  "businessValue": {
+    "forProgrammeTeams": "Reduces manual reconciliation time by ~50–80% for grant-publication linking and donor reporting preparation.",
+    "forLeadership": "Delivers auditable evidence of ROI per grant and long-term researcher outcomes for donor stewardship.",
+    "forDonors": "Faster, higher-trust reporting and fewer manual queries — supports compliance with open-data & ethics policies."
   }
+}
 ];
 
 export default localProjects;
