@@ -121,7 +121,7 @@ const localProjects = [
       "/images/CivicHub/ElectionDates.png"
     ],
     repoUrl: '',
-    demoUrl: 'https://civic-hub-tau.vercel.app/'
+    demoUrl: 'https://civic-hub-frontend.vercel.app/'
   },
   {
     _id: '4',
