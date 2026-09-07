@@ -96,7 +96,7 @@ const localProjects = [
   },
   {
     _id: "4",
-    title: "S.O.L.A.C.E — Premium Digital Discipleship & Youth Ministry Management Platform",
+    title: "S.O.L.A.C.E - Premium Digital Discipleship & Youth Ministry Management Platform",
     slug: "solace",
     summary:
       "S.O.L.A.C.E is a premium digital discipleship and youth ministry operating system for Good Shepherd AGC, designed to unify discipleship, fellowship, community, leadership development, prayer, and pastoral care into one intelligent platform.",
@@ -111,8 +111,8 @@ const localProjects = [
       </p>
 
       <p>
-        The ministry is structured into five classes — <strong>VUKA</strong>, <strong>ROPEs</strong>,
-        <strong>Teens</strong>, <strong>MPH</strong>, and <strong>Young Adults</strong> — all managed
+        The ministry is structured into five classes - <strong>VUKA</strong>, <strong>ROPEs</strong>,
+        <strong>Teens</strong>, <strong>MPH</strong>, and <strong>Young Adults</strong> - all managed
         under one pastoral leadership while maintaining healthy discipleship pathways and accountability.
         Every newcomer follows a guided onboarding journey instead of becoming just another attendance record.
       </p>
@@ -164,15 +164,15 @@ const localProjects = [
 
     year: 2026,
 
-    coverImage: "/images/SOLACE/SOLACE-Landing-Hero.jpg",
+    coverImage: "/images/SOLACE/SOLACE-Landing-Hero.png",
 
     screenshots: [
       "/images/SOLACE/SOLACE-Hero.png",
       "/images/SOLACE/SOLACE-Classes.png",
-      "/images/SOLACE/SOLACE-Admin-Dashboard.png",
+      //"/images/SOLACE/SOLACE-Admin-Dashboard.png",
       "/images/SOLACE/SOLACE-Prayer-Wall.png",
-      "/images/SOLACE/SOLACE-Lead-Vetting.png",
-      "/images/SOLACE/SOLACE-KYC.png"
+      //"/images/SOLACE/SOLACE-Lead-Vetting.png",
+     // "/images/SOLACE/SOLACE-KYC.png"
     ],
 
     features: [
