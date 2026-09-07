@@ -167,7 +167,7 @@ const localProjects = [
     coverImage: "/images/SOLACE/SOLACE-Landing-Hero.png",
 
     screenshots: [
-      "/images/SOLACE/SOLACE-Hero.png",
+      //"/images/SOLACE/SOLACE-Hero.png",
       "/images/SOLACE/SOLACE-Classes.png",
       //"/images/SOLACE/SOLACE-Admin-Dashboard.png",
       "/images/SOLACE/SOLACE-Prayer-Wall.png",
