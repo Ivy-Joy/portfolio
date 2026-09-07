@@ -49,6 +49,172 @@ const localProjects = [
   },
   {
     _id: '2',
+    title: 'CivicHub: Integrated Civic Education & Voter Information Platform',
+    slug: 'civichub',
+    summary: "CivicHub is a non-partisan, voter-first platform that centralizes official election information, polling-station lookup, and simplified civic education to help citizens participate confidently in Kenya’s democratic process.",
+    description: `
+      <p><strong>CivicHub</strong> was built to address a common challenge in civic participation: access to clear, reliable, and locally relevant election information. While official electoral and constitutional resources exist, they are often fragmented, highly technical, and difficult to navigate - especially for first-time voters, students, and communities with limited internet access.</p>
+      <p>The platform aggregates official public data and presents it in a simple, non-partisan format that allows users to quickly find where to register or vote, understand election timelines, and learn what is required on voting day. Location-based search enables users to identify nearby registration centers and polling stations using either administrative locations or device location, reducing confusion and reliance on unofficial sources.</p>
+      <p>CivicHub also provides structured civic education through a sectioned Constitution, broken down into clear, navigable topics with plain-language explanations. Content is designed for multiple literacy levels, making it suitable for classroom use, self-study, and community learning. Printable materials and translation-ready content ensure the platform can be used in low-connectivity environments and local outreach programs.</p>
+      <p>The system is intentionally designed as an informational tool only. It does not perform voter registration, does not collect national identification numbers, and does not promote political parties or candidates. All content is reviewed for neutrality and accuracy, supporting informed participation without influencing voter choice.</p>
+      <p>By prioritizing accessibility, clarity, and trust, CivicHub aims to strengthen civic knowledge, reduce election-related misinformation, and enable citizens to participate confidently and responsibly in democratic processes.</p>
+    `,
+    role: "Founder, Product Architect, and Full-Stack Engineer",
+    stack: ['React', 'Node.js', 'Express', 'MongoDB'],
+    year: 2025,
+    coverImage: "/images/CivicHub.jpeg",
+    screenshots: [
+      "/images/CivicHub/LocatePollingStationAndKYL.png",
+      "/images/CivicHub/ElectionDates.png"
+    ],
+    repoUrl: '',
+    demoUrl: 'https://civic-hub-frontend.vercel.app/'
+  }, 
+  {
+    _id: '3',
+    title: 'Lake City Creative Arts - E-commerce Platform(Curated Marketplace for Authentic Maasai Sandals)',
+    slug: 'lake-city-creative-arts',
+    summary: "Lake City Creative Arts is a curated e-commerce platform showcasing authentic, artisan-made Maasai sandals. The project connects skilled Maasai artisans with global buyers through story-led product pages, ethical sourcing, and a frictionless checkout experience optimized for African and international customers.",
+    description: `
+      <p> Lake City Creative Arts is a boutique e-commerce experience built to celebrate and commercialize authentic Maasai sandal craftsmanship while ensuring fair pay, traceable provenance, and a delightful shopping experience for global customers. The platform combines strong merchant controls, artisan stories, and modern commerce features to create a sustainable marketplace that scales artisan income without sacrificing cultural integrity. </p> <p> Each product page emphasizes provenance: artisan profiles, making-of galleries, limited edition batch numbers, and recommended care instructions. The design focuses on photography-first storytelling, simple customization (size, beadwork options, color), and a one-click checkout flow that supports both local payment rails (M-PESA) and international gateways (Stripe). Orders are tracked end-to-end and artisans receive transparent payout statements after each disbursement cycle. </p> <p> Operationally, Lake City Creative Arts implements a cooperative onboarding model where artisan collectives register, upload product batches, and manage inventory through an intuitive admin dashboard. Administrators can approve new artisans, manage inventory allocations, and reconcile payouts. The platform also includes wholesale tooling for boutique retailers, a campaign system for limited drops, and a returns & repair workflow tailored for handcrafted goods. </p> <p> Built to be mobile-first and performance-optimized, Lake City Creative Arts prioritizes low-latency browsing in markets with constrained connectivity. The platform supports localized UX (currency, language, local delivery instructions) and is designed to scale from Kenya-first operations to international shipping with minimal operational overhead. </p>
+    `,
+    role: 'Product Architect & Lead Full Stack Engineer',
+    stack: ['React', 'Node.js', 'Express', 'MongoDB', 'Stripe(international payments)', "MPESA API( local Kenyan payments)", "REST APIs", "Webhooks Server-side rendering", "hydration for SEO", "CI/CD (GitHub Actions)", "Analytics (GA4 + custom events)"],
+    year: 2025,
+    coverImage: '/images/LakeCityCreativesArt.jpeg',
+    screenshots: [
+      "/images/LCC/Shop-page.png",
+      "/images/LCC/AboutUs-Page.png",
+      "/images/LCC/Blog-Page.png",
+      "/images/LCC/Cart-Page.png",
+      "/images/LCC/ContactUs-Page.png",
+      // "/images/projects/lakecity/checkout-mpesa.jpg",
+      // "/images/projects/lakecity/admin-dashboard.jpg"
+    ],
+    repoUrl: '',
+    demoUrl: 'https://lake-city-creative-arts.vercel.app/'
+  },
+  {
+    _id: "4",
+    title: "S.O.L.A.C.E — Premium Digital Discipleship & Youth Ministry Management Platform",
+    slug: "solace",
+    summary:
+      "S.O.L.A.C.E is a premium digital discipleship and youth ministry operating system for Good Shepherd AGC, designed to unify discipleship, fellowship, community, leadership development, prayer, and pastoral care into one intelligent platform.",
+
+    description: `
+      <p>
+        <strong>S.O.L.A.C.E (Serving Our Lord And Christ Every day)</strong> is a purpose-built
+        Digital Ministry Management Platform (DMP) created for the Youth Ministry of Good Shepherd AGC.
+        Rather than functioning as a traditional church website, the platform serves as the digital
+        operating system that supports the spiritual growth, pastoral care, leadership, and community
+        life of young people aged 12–35.
+      </p>
+
+      <p>
+        The ministry is structured into five classes — <strong>VUKA</strong>, <strong>ROPEs</strong>,
+        <strong>Teens</strong>, <strong>MPH</strong>, and <strong>Young Adults</strong> — all managed
+        under one pastoral leadership while maintaining healthy discipleship pathways and accountability.
+        Every newcomer follows a guided onboarding journey instead of becoming just another attendance record.
+      </p>
+
+      <p>
+        The platform introduces a complete <strong>Digital Discipleship Pathway</strong>, allowing
+        members to progress from newcomer to baptized believer, small-group participant, ministry
+        volunteer, leader, and disciple-maker through structured milestones, mentorship, and pastoral oversight.
+      </p>
+
+      <p>
+        Leadership is supported through a comprehensive vetting and onboarding workflow where prospective
+        leaders apply digitally, undergo spiritual screening, accountability review, interviews, and
+        approval before receiving role-based access. This preserves doctrine, healthy leadership, and
+        ministry integrity.
+      </p>
+
+      <p>
+        Beyond administration, S.O.L.A.C.E provides a living community experience through a moderated
+        Prayer Wall, Know Your Community (KYC) sessions, pastoral care requests, buddy assignment,
+        volunteer management, event registration, announcements, testimonies, and ministry communication.
+        Every interaction is designed to strengthen genuine Christian fellowship rather than passive consumption.
+      </p>
+
+      <p>
+        The long-term vision is to become a scalable digital ministry infrastructure that can be deployed
+        across churches globally while remaining rooted in Scripture, prayer, pastoral shepherding,
+        and authentic discipleship.
+      </p>
+    `,
+
+    role: "Product Architect, UI/UX Designer & Full-Stack Engineer",
+
+    stack: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Mongoose",
+      "JWT Authentication",
+      "Framer Motion",
+      "Cloudinary",
+      "Vercel",
+      "Render"
+    ],
+
+    year: 2026,
+
+    coverImage: "/images/SOLACE/SOLACE-Landing-Hero.jpg",
+
+    screenshots: [
+      "/images/SOLACE/SOLACE-Hero.png",
+      "/images/SOLACE/SOLACE-Classes.png",
+      "/images/SOLACE/SOLACE-Admin-Dashboard.png",
+      "/images/SOLACE/SOLACE-Prayer-Wall.png",
+      "/images/SOLACE/SOLACE-Lead-Vetting.png",
+      "/images/SOLACE/SOLACE-KYC.png"
+    ],
+
+    features: [
+      "Digital Discipleship Pathway",
+      "Youth Class Management (VUKA, ROPEs, Teens, MPH, Young Adults)",
+      "Admin Dashboard & Ministry Analytics",
+      "Leader Vetting & Approval Workflow",
+      "Member Onboarding & Buddy Assignment",
+      "Prayer Wall & Pastoral Care",
+      "Know Your Community (KYC) System",
+      "Event Registration & Attendance",
+      "Volunteer & Ministry Management",
+      "Announcements & Testimonies",
+      "Role-Based Access Control",
+      "Notifications & Follow-up System"
+    ],
+
+    architecture: {
+      frontend: "Next.js + Tailwind CSS",
+      backend: "Express.js REST API",
+      database: "MongoDB",
+      authentication: "JWT + Role Based Access",
+      hosting: {
+        frontend: "Vercel",
+        backend: "Render",
+        media: "Cloudinary"
+      }
+    },
+
+    impact: [
+      "Transforms manual youth administration into a fully digital ministry workflow.",
+      "Strengthens discipleship beyond Sunday attendance through measurable spiritual journeys.",
+      "Improves pastoral care with structured onboarding, mentorship, and prayer systems.",
+      "Creates accountability for leaders through digital vetting and role management.",
+      "Provides a scalable church technology model reusable across ministries worldwide."
+    ],
+
+    //repoUrl: "https://github.com/Ivy-Joy/SOLACE-System",
+    demoUrl: "https://solace-app-frontend.vercel.app/"
+  },
+  {
+    _id: '5',
     title: "Errando - Premium, Trusted Errand & Micro-Logistics Management Platform",
     slug: 'errando',
     summary:"Errando is a premium Logistics Management Platform (LMP) for high-trust errands and administrative logistics in Kenya, built around escrow payments, verifiable proof-of-work, and a curated operator network.",
@@ -99,53 +265,6 @@ const localProjects = [
     ],
     repoUrl: 'https://github.com/Ivy-Joy/Errando'
     // demoUrl: ''
-  },
-  {
-    _id: '3',
-    title: 'CivicHub: Integrated Civic Education & Voter Information Platform',
-    slug: 'civichub',
-    summary: "CivicHub is a non-partisan, voter-first platform that centralizes official election information, polling-station lookup, and simplified civic education to help citizens participate confidently in Kenya’s democratic process.",
-    description: `
-      <p><strong>CivicHub</strong> was built to address a common challenge in civic participation: access to clear, reliable, and locally relevant election information. While official electoral and constitutional resources exist, they are often fragmented, highly technical, and difficult to navigate - especially for first-time voters, students, and communities with limited internet access.</p>
-      <p>The platform aggregates official public data and presents it in a simple, non-partisan format that allows users to quickly find where to register or vote, understand election timelines, and learn what is required on voting day. Location-based search enables users to identify nearby registration centers and polling stations using either administrative locations or device location, reducing confusion and reliance on unofficial sources.</p>
-      <p>CivicHub also provides structured civic education through a sectioned Constitution, broken down into clear, navigable topics with plain-language explanations. Content is designed for multiple literacy levels, making it suitable for classroom use, self-study, and community learning. Printable materials and translation-ready content ensure the platform can be used in low-connectivity environments and local outreach programs.</p>
-      <p>The system is intentionally designed as an informational tool only. It does not perform voter registration, does not collect national identification numbers, and does not promote political parties or candidates. All content is reviewed for neutrality and accuracy, supporting informed participation without influencing voter choice.</p>
-      <p>By prioritizing accessibility, clarity, and trust, CivicHub aims to strengthen civic knowledge, reduce election-related misinformation, and enable citizens to participate confidently and responsibly in democratic processes.</p>
-    `,
-    role: "Founder, Product Architect, and Full-Stack Engineer",
-    stack: ['React', 'Node.js', 'Express', 'MongoDB'],
-    year: 2025,
-    coverImage: "/images/CivicHub.jpeg",
-    screenshots: [
-      "/images/CivicHub/LocatePollingStationAndKYL.png",
-      "/images/CivicHub/ElectionDates.png"
-    ],
-    repoUrl: '',
-    demoUrl: 'https://civic-hub-frontend.vercel.app/'
-  },
-  {
-    _id: '4',
-    title: 'Lake City Creative Arts - E-commerce Platform(Curated Marketplace for Authentic Maasai Sandals)',
-    slug: 'lake-city-creative-arts',
-    summary: "Lake City Creative Arts is a curated e-commerce platform showcasing authentic, artisan-made Maasai sandals. The project connects skilled Maasai artisans with global buyers through story-led product pages, ethical sourcing, and a frictionless checkout experience optimized for African and international customers.",
-    description: `
-      <p> Lake City Creative Arts is a boutique e-commerce experience built to celebrate and commercialize authentic Maasai sandal craftsmanship while ensuring fair pay, traceable provenance, and a delightful shopping experience for global customers. The platform combines strong merchant controls, artisan stories, and modern commerce features to create a sustainable marketplace that scales artisan income without sacrificing cultural integrity. </p> <p> Each product page emphasizes provenance: artisan profiles, making-of galleries, limited edition batch numbers, and recommended care instructions. The design focuses on photography-first storytelling, simple customization (size, beadwork options, color), and a one-click checkout flow that supports both local payment rails (M-PESA) and international gateways (Stripe). Orders are tracked end-to-end and artisans receive transparent payout statements after each disbursement cycle. </p> <p> Operationally, Lake City Creative Arts implements a cooperative onboarding model where artisan collectives register, upload product batches, and manage inventory through an intuitive admin dashboard. Administrators can approve new artisans, manage inventory allocations, and reconcile payouts. The platform also includes wholesale tooling for boutique retailers, a campaign system for limited drops, and a returns & repair workflow tailored for handcrafted goods. </p> <p> Built to be mobile-first and performance-optimized, Lake City Creative Arts prioritizes low-latency browsing in markets with constrained connectivity. The platform supports localized UX (currency, language, local delivery instructions) and is designed to scale from Kenya-first operations to international shipping with minimal operational overhead. </p>
-    `,
-    role: 'Product Architect & Lead Full Stack Engineer',
-    stack: ['React', 'Node.js', 'Express', 'MongoDB', 'Stripe(international payments)', "MPESA API( local Kenyan payments)", "REST APIs", "Webhooks Server-side rendering", "hydration for SEO", "CI/CD (GitHub Actions)", "Analytics (GA4 + custom events)"],
-    year: 2025,
-    coverImage: '/images/LakeCityCreativesArt.jpeg',
-    screenshots: [
-      "/images/LCC/Shop-page.png",
-      "/images/LCC/AboutUs-Page.png",
-      "/images/LCC/Blog-Page.png",
-      "/images/LCC/Cart-Page.png",
-      "/images/LCC/ContactUs-Page.png",
-      // "/images/projects/lakecity/checkout-mpesa.jpg",
-      // "/images/projects/lakecity/admin-dashboard.jpg"
-    ],
-    repoUrl: '',
-    demoUrl: 'https://lake-city-creative-arts.vercel.app/'
   },
   {
   "_id": "acre-1",

@@ -1,3 +1,6 @@
+import dns from 'node:dns';
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
 // 1. Environment Variables
 if (process.env.NODE_ENV !== 'production') {
   await import('dotenv').then(d => d.config());
