@@ -263,7 +263,212 @@ const localProjects = [
   }
 },
   {
-    _id: '6',
+  _id: "6",
+  title: "ULTRA - Premium Enterprise Presentation & Product Experience Platform",
+  slug: "ultra",
+
+  summary:
+    "ULTRA is a premium interactive presentation and product experience platform created for L'Oréal, transforming traditional corporate presentations into immersive, structured, and highly engaging digital experiences.",
+
+  description: `
+    <p>
+      <strong>ULTRA</strong> is a premium digital presentation experience designed for
+      <strong>L'Oréal</strong>, created to move beyond conventional slide-based presentations
+      and deliver a more immersive, interactive, and visually refined way of communicating
+      products, ideas, and business narratives.
+    </p>
+
+    <p>
+      The platform treats a presentation as a complete digital experience rather than a
+      collection of static slides. Content is structured into carefully designed sections,
+      allowing users to navigate information progressively while maintaining a strong visual
+      hierarchy and consistent interaction patterns.
+    </p>
+
+    <p>
+      The experience combines responsive layouts, purposeful animation, interactive content
+      sections, and premium visual storytelling to create an interface suitable for
+      executive presentations, product demonstrations, and high-value brand experiences.
+    </p>
+
+    <p>
+      Particular attention was given to <strong>UI/UX design, responsive behavior,
+      presentation flow, component architecture, and interaction design</strong>, ensuring
+      that the experience remains polished across different screen sizes and presentation
+      environments.
+    </p>
+
+    <p>
+      ULTRA demonstrates how modern web technologies can transform corporate communication
+      into an interactive product experience - combining engineering, design, motion, and
+      storytelling into a single digital platform.
+    </p>
+  `,
+
+  role: "Product Designer & Frontend Engineer",
+
+  stack: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Framer Motion",
+    "Responsive UI",
+    "Component-Based Architecture"
+  ],
+
+  year: 2026,
+
+  coverImage: "/images/ULTRA/ULTRALandingPage.png",
+
+  screenshots: [
+    //"/images/ULTRA/ULTRA-Hero.png",
+    //"/images/ULTRA/ULTRA-Overview.png",
+    "/images/ULTRA/ULTRA-Products.png",
+    "/images/ULTRA/ULTRA-ClinicalReview.png"
+  ],
+
+  features: [
+    "Interactive Presentation Experience",
+    "Premium Product Storytelling",
+    "Responsive Presentation Layouts",
+    "Interactive Content Sections",
+    "Component-Based UI Architecture",
+    "Motion & Micro-Interactions",
+    "Responsive Design",
+    "Visual Content Hierarchy",
+    "Executive Presentation Experience",
+    "Cross-Device Experience"
+  ],
+
+  architecture: {
+    frontend: "Next.js + React",
+    styling: "Tailwind CSS",
+    animation: "Framer Motion",
+    architecture: "Reusable Component-Based Architecture"
+  },
+
+  impact: [
+    "Transforms traditional presentation content into an interactive digital experience.",
+    "Creates a premium environment for communicating products and business narratives.",
+    "Combines product design, frontend engineering, animation, and storytelling.",
+    "Demonstrates the ability to translate high-end brand requirements into polished digital experiences."
+  ],
+
+  repoUrl: "",
+  demoUrl: "https://ultra-liard.vercel.app/"
+},
+{
+  _id: "7",
+  title: "Good Shepherd School - Digital School Management & Credential Platform",
+  slug: "good-shepherd-school",
+
+  summary:
+    "Good Shepherd School is a digital school management platform concept designed to centralize academic administration, student information, communication, and secure digital credential generation within a unified school ecosystem.",
+
+  description: `
+    <p>
+      <strong>Good Shepherd School</strong> is a digital school management platform designed
+      to provide a centralized technology foundation for modern school administration.
+      The project was conceived to move beyond a conventional school website and establish
+      an extensible platform capable of supporting the school's academic, administrative,
+      communication, and credential-management workflows.
+    </p>
+
+    <p>
+      The system architecture is centered around a unified digital environment where different
+      stakeholders — including administrators, teachers, students, and parents — can eventually
+      interact with the information and services relevant to their roles.
+    </p>
+
+    <p>
+      A key component of the platform is the <strong>digital credential infrastructure</strong>,
+      designed to allow the school to generate professional digital certificates and other
+      official documents electronically. Generated documents can incorporate secure signatures
+      and verification mechanisms, creating a more reliable alternative to manually produced
+      credentials.
+    </p>
+
+    <p>
+      The platform was also designed with a modular architecture so that additional school
+      management capabilities can be introduced progressively without requiring the entire
+      system to be rebuilt. This provides a foundation for future modules covering academic
+      records, student management, communication, reporting, and administration.
+    </p>
+
+    <p>
+      The project demonstrates an approach to education technology that combines
+      <strong>institutional workflows, role-based access, document automation, and digital
+      identity</strong> within one extensible platform rather than treating the school's
+      digital presence as a static information website.
+    </p>
+  `,
+
+  role: "Product Architect & Full-Stack Engineer",
+
+  stack: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Node.js",
+    "REST APIs",
+    "MongoDB",
+    "JWT Authentication",
+    "Role-Based Access Control",
+    "PDF Generation",
+    "Digital Signatures",
+    "Document Verification"
+  ],
+
+  year: 2026,
+
+  coverImage: "/images/GOODSHEPHERD/SchoolLandingPage.png",
+
+  screenshots: [
+    //"/images/GoodShepherdSchool/SchoolLandingPage.png",
+    "/images/GOODSHEPHERD/AboutSchool.png",
+    "/images/GOODSHEPHERD/Academics.png",
+    //"/images/GoodShepherdSchool/SchoolContact.png"
+  ],
+
+  features: [
+    "School Management Platform Foundation",
+    "Student Information Architecture",
+    "Parent & Student Portal Architecture",
+    "Teacher & Staff Management Architecture",
+    "Administrative Dashboard",
+    "Role-Based Access Control",
+    "Digital Certificate Generation",
+    "PDF Document Generation",
+    "Digital Signature Capture",
+    "Certificate Verification",
+    "Secure Document Workflows",
+    "Modular Platform Architecture"
+  ],
+
+  architecture: {
+    frontend: "Next.js + React + TypeScript",
+    backend: "Node.js REST API",
+    database: "MongoDB",
+    authentication: "JWT + Role Based Access",
+    documents: "Server-Side PDF Generation",
+    credentials: "Digital Signature + Verification Workflow"
+  },
+
+  impact: [
+    "Establishes a scalable digital foundation for school administration.",
+    "Moves institutional workflows toward centralized digital management.",
+    "Reduces dependence on manually generated academic documents.",
+    "Introduces secure digital certificate generation and verification.",
+    "Creates an extensible architecture capable of supporting future school management modules."
+  ],
+
+  repoUrl: "",
+  demoUrl: ""
+},
+  {
+    _id: '8',
     title: "Errando - Premium, Trusted Errand & Micro-Logistics Management Platform",
     slug: 'errando',
     summary:"Errando is a premium Logistics Management Platform (LMP) for high-trust errands and administrative logistics in Kenya, built around escrow payments, verifiable proof-of-work, and a curated operator network.",
